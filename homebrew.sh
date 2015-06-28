@@ -15,7 +15,7 @@ fi
 brew tap homebrew/dupes
 
 # libiconv and libxml2
-brew install libiconv libxm2
+brew install libiconv libxml2
 
 # Qt
 brew install qt
