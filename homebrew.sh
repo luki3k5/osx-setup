@@ -11,6 +11,15 @@ if ! command -v brew > /dev/null; then
   printf "export PATH=\"/usr/local/bin:$PATH\"\n" >> $HOME/.bash_profile
 fi
 
+# Extra Taps
+brew tap homebrew/dupes
+
+# libiconv and libxml2
+brew install libiconv libxm2
+
+# Qt
+brew install qt
+
 # Readline
 brew install readline
 
