@@ -19,7 +19,9 @@ LIBS="readline"
 DBS="mongodb postgresql redis pgcli"
 OTHER="chromedriver bash cloc ctags"
 COLLECTION="$MEDIA $TOOLS $VERSION_CTRL $LIBS $DBS $OTHER"
+BREW=$(which brew)
 
+USER_INPUT=$1
 
 # Fancy colours 
 RED='\033[0;31m'
@@ -32,32 +34,63 @@ WHITE='\033[1;37m'
 NOCOL='\033[0m'
 
 
-# Check if ROOT
-if [[ "$EUID" == 0 ]]; then
-    echo -e "${RED}This script must NOT be run as root ${NOCOL}"
+# In case you are drunk or similar
+fail_save()
+{
+# Check if ROOT or the one and only OS
+
+if [[ "$EUID" == 0 ]] || [[ $(uname) != "Darwin" ]]; then
+    echo -e "${RED}This script must NOT be run as root or other OS than OS X ${NOCOL}"
     exit 1;
 fi
+}
 
-
-# EXECUTION
 # Homebrew
+# Noob checks if brew is already installed, if not install and do settings stuff
 
-BREW=$(which brew)
-
+brew_install()
+{
 if [[ ! -z "$BREW" ]]; then
     # i needed to do some debugging 
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-     export PATH="/usr/local/bin:$PATH" 
-     printf "export PATH=\"/usr/local/bin:$PATH\"\n" >> $HOME/.bash_profile 
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 
+    export PATH="/usr/local/bin:$PATH"  
+    printf "export PATH=\"/usr/local/bin:$PATH\"\n" >> $HOME/.bash_profile  
 fi
+}
 
 
-echo brew install $COLLECTION
-# brew link openssl --force
+# Enforce openssl linkage and clean up downloads at the end
+brew_clean_and_force()
+{
 
-#
-# case what to install
-#
+brew link openssl --force
+brew cleanup
+}
 
-# Clean up downloads at the end
-echo brew cleanup
+brew_install
+
+# install all the things
+
+case "$USER_INPUT" in
+    -l)
+        FILEPATH=$2
+        
+        if [[ ! -f $FILEPATH ]]; then 
+            echo -e "${LIGHT_RED} could not find the file exiting... ${NOCOL}"
+            exit 1;
+        fi
+        COLLECTION=$(cat $FILEPATH | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g')
+        brew install $COLLECTION
+        ;;
+    -a)
+       brew install $COLLECTION
+        ;;
+    *)
+        echo -e "${LIGHT_RED} Please start script with $0 -a for automatic install of typical tools ... ${NOCOL}"
+        echo -e "${LIGHT_RED} or provide a list from brew --list with $0 -l /path/to/list to install your set of brews ${NOCOL}" 
+        exit 1
+        ;;
+esac
+
+brew_clean_and_force
+
