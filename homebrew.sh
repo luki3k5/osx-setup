@@ -13,12 +13,15 @@ shopt -s extglob extquote
 
 # Collection of brews to install
 MEDIA="mpv flac ffmpeg faac imagemagick"
-TOOLS="openssl tmux youtube-dl git git-extras ctags irssi macvim wget ack "
-VERSION_CTRL="git git-extrax "
+TOOLS="openssl tmux youtube-dl ctags irssi macvim wget ack lftp "
+VERSION_CTRL="git git-extrax subversion"
 LIBS="readline"
-DBS="mongodb postgresql redis pgcli"
-OTHER="chromedriver bash cloc ctags"
-COLLECTION="$MEDIA $TOOLS $VERSION_CTRL $LIBS $DBS $OTHER"
+DBS="mongodb postgresql redis pgcli berkeley-db"
+OTHER="chromedriver bash cloc ctagsi cabextract colordiff"
+SEC="reaver aircrack-ng binwalk john hydra hping netcat6 tcpdump tcpflow tcping tcpreplay tcptraceroute ssldump sslscan sslyze"
+FORENSIC="autopsy chkrootkit volatilityi libewf sleuthkit recoverjpeg"
+SHELLS="bash bash-completion"
+COLLECTION="$MEDIA $TOOLS $VERSION_CTRL $LIBS $DBS $OTHER $SEC $FORENSIC"
 BREW=$(which brew)
 
 USER_INPUT=$1
@@ -81,9 +84,11 @@ case "$USER_INPUT" in
         fi
         COLLECTION=$(cat $FILEPATH | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g')
         brew install $COLLECTION
+        brew_clean_and_force
         ;;
     -a)
-       brew install $COLLECTION
+        brew install $COLLECTION
+        brew_clean_and_force
         ;;
     *)
         echo -e "${LIGHT_RED} Please start script with $0 -a for automatic install of typical tools ... ${NOCOL}"
