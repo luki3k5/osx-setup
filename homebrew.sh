@@ -16,9 +16,9 @@ MEDIA="mpv flac ffmpeg faac imagemagick"
 TOOLS="openssl tmux youtube-dl ctags irssi macvim wget ack lftp "
 VERSION_CTRL="git git-extrax subversion"
 LIBS="readline"
-DBS="mongodb postgresql redis pgcli berkeley-db"
+DBS="mongodb postgresql redis pgcli berkeley-db sqlite"
 OTHER="chromedriver bash cloc ctagsi cabextract colordiff"
-SEC="reaver aircrack-ng binwalk john hydra hping netcat6 tcpdump tcpflow tcping tcpreplay tcptraceroute ssldump sslscan sslyze"
+SEC="reaver aircrack-ng binwalk john hydra hping netcat6 tcpdump tcpflow tcping tcpreplay tcptraceroute ssldump sslscan sslyze skipfish sqlitebrowser sqlmap zmap nmap truecrack"
 FORENSIC="autopsy chkrootkit volatilityi libewf sleuthkit recoverjpeg"
 SHELLS="bash bash-completion"
 COLLECTION="$MEDIA $TOOLS $VERSION_CTRL $LIBS $DBS $OTHER $SEC $FORENSIC"
@@ -97,5 +97,4 @@ case "$USER_INPUT" in
         ;;
 esac
 
-brew_clean_and_force
 
