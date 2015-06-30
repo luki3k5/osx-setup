@@ -90,6 +90,11 @@ case "$USER_INPUT" in
         brew install $COLLECTION
         brew_clean_and_force
         ;;
+    -f)
+        COLLECTION="$FORENSIC"
+        brew install $COLLECTION
+        ;;
+        
     *)
         echo -e "${LIGHT_RED} Please start script with $0 -a for automatic install of typical tools ... ${NOCOL}"
         echo -e "${LIGHT_RED} or provide a list from brew --list with $0 -l /path/to/list to install your set of brews ${NOCOL}" 
