@@ -13,7 +13,7 @@ shopt -s extglob extquote
 
 # Collection of brews to install
 MEDIA="mpv flac ffmpeg faac imagemagick"
-TOOLS="openssl tmux youtube-dl ctags irssi macvim wget ack lftp "
+TOOLS="openssl tmux youtube-dl ctags irssi macvim wget ack lftp qemu"
 VERSION_CTRL="git git-extrax subversion"
 LIBS="readline"
 DBS="mongodb postgresql redis pgcli berkeley-db sqlite"
